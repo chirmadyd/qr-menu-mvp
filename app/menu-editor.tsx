@@ -17,8 +17,11 @@ const positionFields: { key: keyof Position; label: string }[] = [
   { key: "width", label: "너비" }, { key: "height", label: "높이" },
 ];
 
+const apiOrigin = process.env.NEXT_PUBLIC_MENU_API_ORIGIN ?? "";
+const apiAvailable = process.env.NEXT_PUBLIC_PAGES_BUILD !== "1" || !!apiOrigin;
+
 async function post<T>(url: string, body: FormData | string): Promise<T> {
-  const response = await fetch(url, {
+  const response = await fetch(`${apiOrigin}${url}`, {
     method: "POST", body,
     headers: typeof body === "string" ? { "Content-Type": "application/json" } : undefined,
   });
@@ -249,8 +252,8 @@ export function MenuEditor() {
               ))}
             </div>
             <div className="auto-actions">
-              <button type="button" className="secondary" disabled={!source || !!busy || !!lines.length} onClick={recognize}><ScanText size={16} /> 글자 읽기</button>
-              <button type="button" className="secondary" disabled={!targets.length || !lines.length || lines.some((line) => !line.text.trim()) || complete || !!busy} onClick={translate}><Languages size={16} /> 자동 번역</button>
+              <button type="button" className="secondary" disabled={!apiAvailable || !source || !!busy || !!lines.length} onClick={recognize}><ScanText size={16} /> 글자 읽기</button>
+              <button type="button" className="secondary" disabled={!apiAvailable || !targets.length || !lines.length || lines.some((line) => !line.text.trim()) || complete || !!busy} onClick={translate}><Languages size={16} /> 자동 번역</button>
             </div>
           </div>
 
@@ -258,11 +261,12 @@ export function MenuEditor() {
             <label className="field-label" htmlFor="menu-title">공개 메뉴판 이름</label>
             <input className="field" id="menu-title" maxLength={80} value={title} disabled={!!busy}
               onChange={(event) => { setTitle(event.target.value); setResult(undefined); }} />
-            <button type="button" className="primary" disabled={!complete || !title.trim() || !source || !!busy} onClick={publish}>
+            <button type="button" className="primary" disabled={!apiAvailable || !complete || !title.trim() || !source || !!busy} onClick={publish}>
               {busy === "QR 메뉴 만드는 중" ? <LoaderCircle size={18} className="spinner" /> : <QrCode size={18} />}
               {busy === "QR 메뉴 만드는 중" ? busy : "QR 메뉴 만들기"}
             </button>
-            {!complete && <p className="hint">선택한 모든 언어의 번역문을 입력하면 공개할 수 있습니다.</p>}
+            {!apiAvailable ? <p className="hint">서버를 연결하면 자동 OCR, 번역, QR 발행을 이용할 수 있습니다.</p>
+              : !complete && <p className="hint">선택한 모든 언어의 번역문을 입력하면 공개할 수 있습니다.</p>}
           </div>
         </aside>
 
