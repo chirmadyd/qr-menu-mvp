@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = await realpath(fileURLToPath(new URL("../", import.meta.url)));
-const basePath = process.env.PAGES_BASE_PATH ?? "/QR-TransLate-Menu";
+const basePath = process.env.PAGES_BASE_PATH ?? "/qr-menu-mvp";
 const configuredApi = process.env.NEXT_PUBLIC_MENU_API_ORIGIN?.trim();
 const api = configuredApi ? new URL(configuredApi) : undefined;
 if (api && (api.protocol !== "https:" || api.href !== `${api.origin}/`)) {

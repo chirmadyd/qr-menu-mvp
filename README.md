@@ -19,11 +19,11 @@ Google Cloud 프로젝트에서 결제를 연결하고 Cloud Vision API와 Cloud
 
 ## GitHub Pages에 편집기 배포
 
-`npm run build:pages`는 편집 화면을 `out/`에 내보냅니다. 기본 경로는 현재 저장소의 `/QR-TransLate-Menu`입니다. GitHub Actions에서는 Pages가 알려준 경로를 사용합니다.
+`npm run build:pages`는 편집 화면을 `out/`에 내보냅니다. 기본 경로는 현재 저장소의 `/qr-menu-mvp`입니다. GitHub Actions에서는 Pages가 알려준 경로를 사용합니다.
 
 1. GitHub 저장소의 **Settings → Pages → Build and deployment → Source**에서 **GitHub Actions**를 선택합니다.
 2. 변경사항을 `main`에 푸시하거나 **Actions → Deploy editor to GitHub Pages → Run workflow**를 실행합니다.
-3. 배포가 완료되면 [메뉴 편집기](https://chirmadyd.github.io/QR-TransLate-Menu/)를 엽니다.
+3. 배포가 완료되면 [메뉴 편집기](https://chirmadyd.github.io/qr-menu-mvp/)를 엽니다.
 
 Pages만으로 이미지 업로드, 수동 번역 편집과 미리보기를 이용할 수 있습니다. 자동 OCR·번역, QR 발행과 발행된 메뉴 조회에는 별도 Next.js 서버가 필요합니다. QR은 그 서버의 공개 메뉴 주소를 담습니다.
 

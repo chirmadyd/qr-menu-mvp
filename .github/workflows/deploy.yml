@@ -1,5 +1,5 @@
 
-name: Deploy Next.js to GitHub Pages
+name: Deploy editor to GitHub Pages
 
 on:
   push:
@@ -31,11 +31,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        id: pages
+
+      - name: Build static editor
+        run: npm run build:pages
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_MENU_API_ORIGIN: ${{ vars.NEXT_PUBLIC_MENU_API_ORIGIN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
